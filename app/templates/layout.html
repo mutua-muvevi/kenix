@@ -1,0 +1,205 @@
+
+{% import "bootstrap/utils.html" as utils %} <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>{{ title }}</title>
+    {% block links%}
+    <!--Favicon-->
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='./img/logo1.ico') }}"/>
+    <!-- Bootstrap core CSS -->
+    <link
+      href="{{ url_for('static', filename='./css/bootstrap.min.css') }}"
+      rel="stylesheet"
+    />
+
+    <!-- Custom fonts for this template -->
+    <link
+      href="{{ url_for('static', filename = './css/all.min.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename = './css/simple-line-icons.css') }}"
+    />
+
+    <!-- Custom styles for this template -->
+    <link
+      href="{{ url_for('static', filename = './css/apex.css') }}"
+      rel="stylesheet"
+    />
+    {% endblock links%}
+  </head>
+
+  <body id="page-top">
+    {% block navbar %}
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark" id="mainNav">
+      <div class="container ">
+        <button
+          class="navbar-toggler navbar-toggler-right text-light"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          Menu <i class="fas fa-bars text-light"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          {% if current_user.is_authenticated and current_user.is_transporter ==
+          True and current_user.is_cargo_owner == False %}
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{{ url_for('transporter.transporters') }}"
+              >
+                <i class="fa fa-user-friends"></i>&nbsp;Cargo Transporters</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{{ url_for('cargo_owner.dashboard') }}"
+              >
+                <i class="fa fa-industry"></i>&nbsp;Available Routes</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('transporter.dashboard') }}">
+                <i class="fa fa-user-graduate"></i>&nbsp;Profile</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('auth.logout') }}"
+                ><i class="fa fa-sign-out-alt"></i>&nbsp;Logout</a
+              >
+            </li>
+          </ul> 
+          {% elif current_user.is_authenticated and current_user.is_admin %}
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('admin.admin_dashboard') }}"
+                ><i class="fa fa-user-edit"></i>&nbsp;Hi
+                {{ current_user.username }}</a
+              >
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-user-shield"></i>&nbsp;Admins' Dashboard</a>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="background-color:rgba(0,0,0,0.7); width: 200px;">
+                    <a class="nav-link" href="{{ url_for('admin.cargo_owner') }}">
+                        <i class="fa fa-user-tie"></i>&nbsp;Cargo Owners</a>
+                      <a class="nav-link" href="{{ url_for('admin.transporters') }}">
+                        <i class="fa fa-user-graduate"></i>&nbsp;Transporters</a>
+                </div>
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('auth.logout') }}"
+                ><i class="fa fa-sign-out-alt"></i>&nbsp;Logout</a
+              >
+            </li>
+          </ul>
+          {% elif current_user.is_authenticated and current_user.is_transporter
+          == False and current_user.is_cargo_owner == True %}
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{{ url_for('cargo_owner.dashboard') }}"
+              >
+                <i class="fa fa-user-tie"></i>&nbsp;Profile</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{{ url_for('cargo_owner.job_posts') }}"
+              >
+                <i class="fa fa-industry"></i>&nbsp;Jobs</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{{ url_for('cargo_owner.post_job') }}"
+              >
+                <i class="fa fa-plus-square"></i>&nbsp;Post a JOB</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{{ url_for('transporter.freelancers') }}"
+              >
+                <i class="fa fa-user-friends"></i>&nbsp;Job Seekers</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('auth.logout') }}"
+                ><i class="fa fa-sign-out-alt"></i>&nbsp;Logout</a
+              >
+            </li>
+          </ul>
+          {% else %}
+          <a
+          class="navbar-brand js-scroll-trigger"
+          style="color: #fff;"
+          href="{{ url_for('home.homepage') }}"
+          ><i class="fa fa-home"></i>&nbsp;Home</a
+        >
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a
+                class="nav-link js-scroll-trigger"
+                href="{{ url_for('admin.register') }}"
+                ><i class="fa fa-user-edit"></i>&nbsp;Register</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link js-scroll-trigger"
+                href="{{ url_for('auth.login') }}"
+                ><i class="fa fa-sign-in-alt"></i>&nbsp;Login</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="{{ url_for('home.contact')}}"
+                ><i class="fa fa-phone"></i>&nbsp;Contact</a
+              >
+            </li>
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+    {% endblock navbar %}
+    <div class="alert alert-{{ category }} text-center mb-2" style="width: 40%; margin: auto;">
+        {{ utils.flashed_messages() }}
+      </div>
+    {% block body %} 
+    {% endblock body %}
+    {% block script %}
+    <!-- Bootstrap core JavaScript -->
+    <script src="{{ url_for('static', filename = './js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename = './js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename = './js/all.min.js') }}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{{ url_for('static', filename = './js/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="{{ url_for('static', filename = './js/apex.js') }}"></script>
+    {% endblock script %}
+  </body>
+</html>

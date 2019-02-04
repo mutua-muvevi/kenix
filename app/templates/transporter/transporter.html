@@ -1,0 +1,42 @@
+{% extends "layout.html" %} {% import "bootstrap/wtf.html" as wtf %}{% block body %}
+<article class="media body-section container mb-5">
+  <img
+    style="height: 90px; width: 100px;"
+    src="{{ url_for('static', filename='profile_pics/' + user.image_file )}}"
+    alt="Profile picture"
+    class="article-img rounded-circle"
+  />
+  <div class="media-body" style="margin-top: 10px;">
+    <h2 class="article-title">{{ user.first_name }} {{ user.last_name }}</h2>
+
+    <div class="article-metadata">
+      <h5 style="text-decoration: underline;">
+        <strong>{{ user.last_name }}'s Bio</strong>
+      </h5>
+    </div>
+
+    <div class="article-metadata">
+      <h3>Routes</h3>
+      {% if routes_by_id %} {% for project in routes_by_id %}
+      <div class="project-body">
+        <p>From: {{ project.start_point | markdown | truncate }}</p>
+        <p>To: {{ project.destination | markdown | truncate }}</p>
+        <p>From: {{ project.from_date.strftime('%D')}}</p>
+        <p>To: {{ project.to_date.strftime('%D') }}</p>
+      </div>
+      {% endfor %} {% else %}
+      <h1 class="text-center">No Projects Yet</h1>
+      <p class="lead text-center">Click the JigSaw Piece to get started</p>
+      <a href="{{ url_for('transporter.post_route') }}"
+        ><img
+          style="width: 85px; height: 85px; margin-left: 400px;"
+          src="{{ url_for('static', filename='./img/jigsaw.png')}}"
+          alt="jigsaw piece"
+      /></a>
+
+      {% endif %}
+    </div>
+  </div>
+</article>
+
+{% endblock body %}
