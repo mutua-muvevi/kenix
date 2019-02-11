@@ -101,6 +101,27 @@ p {
 .help-block {
   color: red;
 }
+.route-dashboard {
+  font-size: 50pt;
+  color: blue;
+}
+#dashboard-icon {
+  margin: auto;
+  margin-top: 30px;
+  /* margin-left: 75px;
+  margin-top: 50px; */
+}
+.card-title {
+  text-transform: uppercase;
+  font-family: Menlo, Helvetica, sans-serif;
+  text-decoration: underline;
+}
+.card-text {
+  font-size: 50pt;
+}
+#card-footer {
+  padding-left: 0px;
+}
 @media (min-width: 992px) {
   #mainNav {
     border-color: transparent;
@@ -223,10 +244,14 @@ footer ul li a.active {
   border-radius: 5px solid gray;
   background-color: #fff;
   padding: 15px 10px 15px 15px;
-  width: 100%;
+  width: 50%;
 }
 .article-img {
   padding-right: 10px;
+}
+.article-title {
+  font-size: 20pt;
+  padding-bottom: 0px;
 }
 .article-metadata {
   margin-top: 25px;
@@ -318,6 +343,7 @@ h4 {
   height: 150px;
   margin-left: 420px;
 }
+
 @media (max-width: 760px) {
   .center input,
   label,

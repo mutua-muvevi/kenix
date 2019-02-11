@@ -31,6 +31,10 @@ class User(UserMixin, db.Model):
     is_admin = db.Column(db.Boolean, default=False)
     cargo_routes = db.relationship('CargoRoutes', backref='routes',
                                    lazy=True, cascade='all, delete-orphan')
+    drivers = db.relationship(
+        'Drivers', backref='driver', lazy=True, cascade='all, delete-orphan')
+    vehicles = db.relationship(
+        'Vehicles', backref='vehicle', lazy=True, cascade='all, delete-orphan')
 
     @property
     def password(self):
@@ -91,3 +95,36 @@ class CargoRoutes(db.Model):
     image_file = db.Column(db.String(1000), nullable=True,
                            default='default.jpg')
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+class Drivers(db.Model):
+    """
+    Class creates tables for details regarding routes
+    """
+
+    __tablename__ = 'drivers'
+
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    email = db.Column(db.String(250), index=True, unique=True, nullable=False)
+    first_name = db.Column(db.String(50), index=True, nullable=False)
+    middle_name = db.Column(db.String(50), index=True, nullable=False)
+    last_name = db.Column(db.String(50), index=True, nullable=False)
+    id_number = db.Column(db.String(20), index=True, nullable=False)
+    phone_number = db.Column(db.String(100), index=True, nullable=False)
+    license_number = db.Column(db.String(100), index=True, nullable=False)
+    image_file = db.Column(db.String(1000), nullable=False,default='default.jpg')
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+class Vehicles(db.Model):
+    """
+    Class creates tables for details regarding routes
+    """
+
+    __tablename__ = 'vehicles'
+
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    registration_number = db.Column(db.String(20), index=True, nullable=False)
+    vehicle_type = db.Column(db.String(100), index=True, nullable=False)
+    inspection_sticker = db.Column(db.String(100), index=True, nullable=False)
+    load_capacity = db.Column(db.String(20), index=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+

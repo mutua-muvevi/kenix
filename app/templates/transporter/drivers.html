@@ -1,0 +1,64 @@
+{% extends "layout.html" %} {% block title%}{{ title }}{% endblock title%}
+{%block body %}
+<h2 class="container text-center mb-5"><u>Drivers</u></h2>
+{% if drivers.items %} {% for driver in drivers.items %}
+<article class="media body-section container">
+  <img
+    src="{{ url_for('static', filename='profile_pics/' + driver.image_file )}}"
+    alt="Profile picture"
+    class="article-img rounded-circle"
+    style="height: 90px; width: 100px;"
+  />
+
+  <div class="media-body freelancer-body">
+    <div>
+      <h2>
+        <a
+          class="article-title"
+          href="{{ url_for('transporter.get_driver', driver_id=driver.id) }}"
+          >{{ driver.last_name }}</a
+        >
+      </h2>
+      <p class="article-content text-info">
+        {{ driver.first_name }} {{ driver.middle_name }}
+      </p>
+    </div>
+    <div class="row">
+      <p class="article-content col-4">
+        <strong class="text-muted">ID:</strong> {{ driver.id_number }}
+      </p>
+      <p class="article-content col-4">
+        <strong class="text-muted">CALL:</strong> {{ driver.phone_number }}
+      </p>
+      <p class="article-content col-4">
+        <strong class="text-muted">LICENSE:</strong>
+        {{ driver.license_number }}
+      </p>
+      <p class="article-content col-4">
+        <strong class="text-muted">EMAIL:</strong> {{ driver.email }}
+      </p>
+    </div>
+  </div>
+</article>
+{% endfor %} {% else %}
+<h1 class="text-center">No Freelancers Yet.</h1>
+{% endif %}
+<div class="container paginate">
+  {% for page_num in drivers.iter_pages(left_edge=1, right_edge=1,
+  left_current=1, right_current=2) %} {% if page_num %} {% if drivers.page ==
+  page_num %}
+  <a
+    class="btn btn-info mb-4"
+    href="{{ url_for('transporter.drivers', page=page_num) }}"
+    >{{ page_num }}</a
+  >
+  {% else %}
+  <a
+    class="btn btn-outline-info mb-4"
+    href="{{ url_for('transporter.drivers', page=page_num) }}"
+    >{{ page_num }}</a
+  >
+  {% endif %} {% else %} ...... {% endif %} {% endfor %}
+</div>
+
+{% endblock body %}

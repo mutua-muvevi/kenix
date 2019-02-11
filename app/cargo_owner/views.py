@@ -12,8 +12,7 @@ from .. import db
 from .. import create_app
 from ..models import CargoRoutes, User
 from . import cargo_owner
-from .forms import CargoRouteForm
-
+from .forms import CargoRouteForm, UpdateForm
 
 
 def check_cargo_owner():
@@ -54,27 +53,56 @@ def dashboard():
     check_cargo_owner()
     user = User.query.filter_by(
         id_number=current_user.id_number).first_or_404()
-    form = CargoRouteForm()
+    route_list = CargoRoutes.query.filter_by(routes=user)\
+        .order_by(CargoRoutes.id.desc())
+    user = User.query.filter_by(
+        id_number=current_user.id_number).first_or_404()
+    form = UpdateForm()
     if form.validate_on_submit():
         if form.picture.data:
             picture_file = save_picture(form.picture.data)
             current_user.image_file = picture_file
-        current_user.start_point = form.start_point.data
-        current_user.destination = form.destination.data
-        current_user.from_date = form.from_date.data
-        current_user.to_date = form.to_date.data
+        current_user.first_name = form.first_name.data
+        current_user.last_name = form.last_name.data
+        current_user.email = form.email.data
         db.session.commit()
-        flash(f'Cargo Route information updated', 'success')
+        flash(f'Account information updated', 'success')
         return redirect(url_for('cargo_owner.dashboard'))
     elif request.method == 'GET':
-        form.start_point.data = current_user.start_point
-        form.destination.data = current_user.destination
-        form.from_date.data = current_user.from_date
-        form.to_date.data = current_user.to_date
+        form.first_name.data = current_user.first_name
+        form.last_name.data = current_user.last_name
+        form.email.data = current_user.email
     image_file = url_for('static',
                          filename='profile_pics/' + current_user.image_file)
     return render_template('cargo_owner/dashboard.html', title=user.first_name + " " + user.last_name,
-                           date=date(), image_file=image_file, form=form)
+                           image_file=image_file, form=form, route_list=route_list)
+
+
+@cargo_owner.route('/route/post/new', methods=['GET', 'POST'])
+@login_required
+def post_route():
+    """
+    Render the homepage template on the / route
+    """
+    check_cargo_owner()
+    form = CargoRouteForm()
+    if form.validate_on_submit():
+        cargo_route = CargoRoutes(
+            start_point=form.start_point.data,
+            destination=form.destination.data,
+            from_date=form.from_date.data,
+            to_date=form.to_date.data,
+            routes=current_user
+        )
+        db.session.add(cargo_route)
+        db.session.commit()
+        flash(f'You have posted a job successfully', 'success')
+
+        # redirect to employers dashboard
+
+        return redirect(url_for('cargo_owner.dashboard'))
+    # load job posting form
+    return render_template('cargo_owner/project.html', title='New Job', form=form)
 
 
 @cargo_owner.route('/cargo_owner/<int:res_id>/route/update', methods=['GET', 'POST'])

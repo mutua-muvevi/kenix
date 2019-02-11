@@ -1,0 +1,48 @@
+{% extends "layout.html" %} {% block title%}{{ title }}{% endblock title%}
+{%block body %}
+<h2 class="container text-center mb-5"><u>Trips</u></h2>
+{% if trips.items %} {% for trip in trips.items %}
+<article class="media body-section container">
+  <div class="media-body freelancer-body" id="trips-div">
+    <div class="row">
+      <p class="article-content col-3">
+        <strong>From: </strong>{{ trip.start_point }}
+      </p>
+      <p class="article-content col-3">
+        <strong>To: </strong>{{ trip.destination }}
+      </p>
+    </div>
+    <div class="row">
+      <p class="article-content col-3">
+        <strong>From: </strong>{{ trip.from_date.strftime("%x") }}
+      </p>
+      <p class="article-content col-3">
+        <strong>To: </strong>{{ trip.to_date.strftime("%x") }}
+      </p>
+      <p class="article-content col-3">
+        <a href="{{ url_for('transporter.get_trip', trip_id=trip.id)}}">View Trip</a>
+      </p>
+    </div>
+  </div>
+</article>
+{% endfor %} {% else %}
+<h1 class="text-center">No Freelancers Yet.</h1>
+{% endif %}
+<div class="container paginate">
+  {% for page_num in trips.iter_pages(left_edge=1, right_edge=1, left_current=1,
+  right_current=2) %} {% if page_num %} {% if trips.page == page_num %}
+  <a
+    class="btn btn-info mb-4"
+    href="{{ url_for('transporter.trips', page=page_num) }}"
+    >{{ page_num }}</a
+  >
+  {% else %}
+  <a
+    class="btn btn-outline-info mb-4"
+    href="{{ url_for('transporter.trips', page=page_num) }}"
+    >{{ page_num }}</a
+  >
+  {% endif %} {% else %} ...... {% endif %} {% endfor %}
+</div>
+
+{% endblock body %}

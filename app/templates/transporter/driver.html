@@ -1,0 +1,88 @@
+{% extends "layout.html" %} {% block body %}
+<article class="media body-section container mb-5">
+  <img
+    style="height: 90px; width: 100px;"
+    src="{{ url_for('static', filename='profile_pics/' + driver.driver.image_file )}}"
+    alt="Profile picture"
+    class="article-img rounded-circle"
+  />
+  <div class="media-body" style="margin-top: 10px;">
+    <h2 class="article-title">
+      {{ driver.driver.first_name }} {{ driver.driver.last_name }}
+    </h2>
+
+    <div class="article-metadata">
+      <h5 style="text-decoration: underline;">
+        <strong>ID NUMBER</strong>
+      </h5>
+      <p class="article-content">{{ driver.id_number }}</p>
+
+      <h5 style="text-decoration: underline;">
+        <strong>PHONE NUMBER</strong>
+      </h5>
+      <p class="article-content">{{ driver.phone_number }}</p>
+
+      <h5 style="text-decoration: underline;">
+        <strong>LICENSE NUMBER</strong>
+      </h5>
+      <p class="article-content">{{ driver.license_number }}</p>
+    </div>
+  </div>
+  {% if driver.driver == current_user %}
+  <div class="update-section">
+    <a
+      class="btn btn-secondary btn-sm"
+      href="{{ url_for('transporter.update_driver', driver_id=driver.id)}}"
+      >Update Driver Info</a
+    >
+    <button
+      type="button"
+      class="btn btn-danger btn-sm m-1"
+      data-toggle="modal"
+      data-target="#deleteModal"
+    >
+      Delete Driver
+    </button>
+  </div>
+  {% endif %}
+</article>
+<div
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="deleteModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Modal Title</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">Are you sure you want to delete this job?</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form
+          action="{{url_for('transporter.delete_driver', driver_id=driver.id)}}"
+          method="POST"
+        >
+          <input
+            type="submit"
+            class="btn btn-danger btn-modal "
+            value="Delete"
+          />
+        </form>
+        <!-- <button class="btn btn-danger">Delete</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock body %}

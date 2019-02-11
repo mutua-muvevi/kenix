@@ -3,7 +3,7 @@
 title %}{{ title }}{% endblock %} {% block body%}
 <main role="main" class="main">
   <div class="row">
-    <div class="col-md-4 col-sm-12">
+    <div class="col-md-3 col-sm-12">
       <div class="container h-100" style="margin-top: 15px;">
         <div class="my-auto">
           <div class="header-content mx-auto">
@@ -11,7 +11,7 @@ title %}{{ title }}{% endblock %} {% block body%}
               class="mb-5 ml-2 text-center text-dark freelancer-bio"
               style="background: rgba(250,250,250); padding: 15px;"
             >
-              <p class="lead jobseeker"><u>You are a Job Seeker</u></p>
+              <p class="lead jobseeker"><u>You are a Transporter</u></p>
               <img
                 style="height: 190px; width: 200px;"
                 class="rounded-circle profile-img"
@@ -41,40 +41,62 @@ title %}{{ title }}{% endblock %} {% block body%}
     </div>
 
     <!--Right side of the dashboard-->
-    <div class="col-md-7 col-sm-12">
-      <div
-        class="content-section mt-3"
-        style="background: rgba(250,250,250); padding: 15px;"
-      >
-        <div class="bio">
-            <h3>Projects</h3>
-            {% if route_list %} {% for project in route_list %}
-            <div class="project-body">
-              <p>{{ project.start_point }}</p>
-              <p>{{ project.destination }}</p>
-              <p>{{ project.from_date }}</p>
-              <p>{{ project.to_date }}</p>
+    <div class="col-md-9 col-sm-12">
+      <div class="content-section mt-3 row">
+        <div class="card col-3">
+          <i class="fa fa-truck fa-5x" id="dashboard-icon"></i>
+          <div class="card-body">
+            <h5 class="card-title text-center">My Trucks</h5>
+            <p class="card-text text-center">
+              {{ trucks.total }}
+            </p>
+            <div id="card-footer">
+              <a
+                class="nav-link btn btn-primary"
+                href="{{ url_for('transporter.register_truck') }}"
+              >
+                <i class="fa fa-plus"></i>&nbsp;New</a
+              >
             </div>
-            {% endfor %} {% else %}
-            <h1 class="text-center">No Projects Yet</h1>
-            <div class="container">
-              <p class="text-center" id="jigsaw">
-                Click the JigSaw Piece to get started
-              </p>
-              <a href="{{ url_for('transporter.dashboard') }}"
-                ><img
-                  src="{{ url_for('static', filename='./img/jigsaw.png')}}"
-                  alt="jigsaw piece"
-                  class="img-jigsaw"
-              /></a>
+          </div>
+        </div>
+        <div class="card col-3 ml-3">
+          <i class="fa fa-users fa-5x" id="dashboard-icon"></i>
+          <div class="card-body">
+            <h5 class="card-title text-center">My Drivers</h5>
+            <p class="card-text text-center">
+              {{ drivers.total }}
+            </p>
+            <div id="card-footer">
+              <a
+                class="nav-link btn btn-primary"
+                href="{{ url_for('transporter.register_driver') }}"
+              >
+                <i class="fa fa-plus"></i>&nbsp;New</a
+              >
             </div>
-
-            {% endif %}
-          </div>s
+          </div>
+        </div>
+        <div class="card col-3 ml-3">
+          <i class="fa fa-road fa-5x" id="dashboard-icon"></i>
+          <div class="card-body">
+            <h5 class="card-title text-center">My Trips</h5>
+            <p class="card-text text-center">
+              {{ route_list.total }}
+            </p>
+            <div id="card-footer">
+              <a
+                class="nav-link btn btn-primary"
+                href="{{ url_for('transporter.post_route') }}"
+              >
+                <i class="fa fa-plus"></i>&nbsp;New</a
+              >
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <!--End  of right side of dashboard-->
   </div>
+  <!--End  of right side of dashboard-->
 </main>
 {% endblock body %}

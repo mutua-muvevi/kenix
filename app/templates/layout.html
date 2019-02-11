@@ -57,21 +57,35 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           {% if current_user.is_authenticated and current_user.is_transporter ==
           True and current_user.is_cargo_owner == False %}
+          <a
+          class="navbar-brand js-scroll-trigger"
+          style="color: #fff;"
+          href="{{ url_for('transporter.dashboard') }}"
+          ><i class="fa fa-truck"></i>&nbsp;Transporters' Dashboard</a
+        >
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <a
                 class="nav-link"
-                href="{{ url_for('transporter.transporters') }}"
+                href="{{ url_for('transporter.drivers') }}"
               >
-                <i class="fa fa-user-friends"></i>&nbsp;Cargo Transporters</a
+                <i class="fa fa-users"></i>&nbsp;My Drivers</a
               >
             </li>
             <li class="nav-item">
               <a
                 class="nav-link"
-                href="{{ url_for('cargo_owner.dashboard') }}"
+                href="{{ url_for('transporter.trips') }}"
               >
-                <i class="fa fa-industry"></i>&nbsp;Available Routes</a
+                <i class="fa fa-road"></i>&nbsp;My Trips</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{{ url_for('transporter.trucks') }}"
+              >
+                <i class="fa fa-truck"></i>&nbsp;My Trucks</a
               >
             </li>
             <li class="nav-item">
@@ -79,6 +93,11 @@
                 <i class="fa fa-user-graduate"></i>&nbsp;Profile</a
               >
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('transporter.new_password') }}">
+                  <i class="fa fa-key"></i>&nbsp;Set New Password</a
+                >
+              </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('auth.logout') }}"
                 ><i class="fa fa-sign-out-alt"></i>&nbsp;Logout</a
@@ -104,6 +123,11 @@
                         <i class="fa fa-user-graduate"></i>&nbsp;Transporters</a>
                 </div>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('admin.register') }}"
+                  ><i class="fa fa-pen"></i>&nbsp;Register User</a
+                >
+              </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('auth.logout') }}"
                 ><i class="fa fa-sign-out-alt"></i>&nbsp;Logout</a
@@ -112,6 +136,12 @@
           </ul>
           {% elif current_user.is_authenticated and current_user.is_transporter
           == False and current_user.is_cargo_owner == True %}
+          <a
+          class="navbar-brand js-scroll-trigger"
+          style="color: #fff;"
+          href="{{ url_for('cargo_owner.dashboard') }}"
+          ><i class="fa fa-truck"></i>&nbsp;Cargo Owners' Dashboard</a
+        >
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <a
@@ -124,25 +154,17 @@
             <li class="nav-item">
               <a
                 class="nav-link"
-                href="{{ url_for('cargo_owner.job_posts') }}"
+                href="{{ url_for('cargo_owner.post_route') }}"
               >
-                <i class="fa fa-industry"></i>&nbsp;Jobs</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                href="{{ url_for('cargo_owner.post_job') }}"
-              >
-                <i class="fa fa-plus-square"></i>&nbsp;Post a JOB</a
+                <i class="fa fa-plus-square"></i>&nbsp;Post a Route</a
               >
             </li>
             <li class="nav-item">
               <a
                 class="nav-link"
-                href="{{ url_for('transporter.freelancers') }}"
+                href="{{ url_for('transporter.drivers') }}"
               >
-                <i class="fa fa-user-friends"></i>&nbsp;Job Seekers</a
+                <i class="fa fa-user-friends"></i>&nbsp;Transporters</a
               >
             </li>
             <li class="nav-item">
