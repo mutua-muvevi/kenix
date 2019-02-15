@@ -16,6 +16,7 @@ class NewPasswordForm(FlaskForm):
                                      Required(), EqualTo('new_password')])
     submit = SubmitField('Update')
 
+
 class UpdateForm(FlaskForm):
     """
     Form for users to create new account
@@ -37,6 +38,7 @@ class UpdateForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('Email already exists')
+
     def validate_phone_number(self, phone_number):
         if phone_number.data != current_user.phone_number:
             user = User.query.filter_by(phone_number=phone_number.data).first()
@@ -116,8 +118,8 @@ class DriverUpdateForm(FlaskForm):
 
 
 class VehicleForm(FlaskForm):
-    registration_number = StringField('Registration Number', validators=[
-                                      Required()], render_kw={'placeholder': 'KCA 123G'})
+    registration_number = StringField('Registration Number / Trailer Number', validators=[
+                                      Required()], render_kw={'placeholder': 'KCA 123G/ZE 9236'})
     vehicle_type = StringField('Vehicle Type', validators=[Required()], render_kw={
                                'placeholder': 'Prime Mover, 10 Tonne Truck..'})
     inspection_sticker = StringField('Inspection Sticker', validators=[

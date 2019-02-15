@@ -26,7 +26,6 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     image_file = db.Column(db.String(1000), nullable=False,
                            default='default.jpg')
-    is_cargo_owner = db.Column(db.Boolean, default=False)
     is_transporter = db.Column(db.Boolean, default=False)
     is_admin = db.Column(db.Boolean, default=False)
     cargo_routes = db.relationship('CargoRoutes', backref='routes',

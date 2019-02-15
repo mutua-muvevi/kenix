@@ -47,9 +47,6 @@ def create_app(config_name):
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 
-    from .cargo_owner import cargo_owner as cargo_owner_blueprint
-    app.register_blueprint(cargo_owner_blueprint)
-
     from .transporter import transporter as transporter_blueprint
     app.register_blueprint(transporter_blueprint)
 

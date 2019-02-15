@@ -5,12 +5,13 @@ from flask_login import login_required
 from flask import render_template, abort, url_for, flash, redirect, request
 from flask_login import login_required, current_user
 import os
+import secrets 
+from PIL import Image
 
 # local imports
 from .. import db
 from .. import create_app
 from ..models import CargoRoutes, User, Drivers, Vehicles
-from ..cargo_owner.views import save_picture
 from . import transporter
 from .forms import CargoRouteForm, UpdateForm, DriverForm, VehicleForm, DriverUpdateForm, NewPasswordForm
 
@@ -23,6 +24,24 @@ def check_transporter():
     if not current_user.is_transporter:
         abort(403)
 
+def save_picture(form_picture):
+    """
+    function for saving the path to the profile picture
+    """
+    app = create_app(config_name=os.getenv('APP_SETTINGS'))
+    # random hex to be usedin storing the file name to avoid clashes
+    random_hex = secrets.token_hex(8)
+    # split method for splitting the filename from the file extension
+    _, pic_ext = os.path.split(form_picture.filename)
+    # pic_fn = picture filename which is a concantanation of the filename(hex name) and file extension
+    pic_fn = random_hex + pic_ext
+    # path to picture from the root to the profile_pics folder
+    pic_path = os.path.join(app.root_path, 'static/profile_pics', pic_fn)
+    output_size = (512, 512)
+    img = Image.open(form_picture)
+    img.thumbnail(output_size)
+    img.save(pic_path)  # save the picture path to the file system
+    return pic_fn
 
 @transporter.route('/transporter/dashboard', methods=['GET', 'POST'])
 @login_required

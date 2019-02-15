@@ -17,15 +17,9 @@ def login():
     Log an employee in through the login form
     """
     if current_user.is_authenticated:
-        if current_user.is_transporter == True and current_user.is_cargo_owner == False:
+        if current_user.is_transporter:
             # redirect to the transporter dashboard page after login
             return redirect(url_for('transporter.dashboard'))
-        elif current_user.is_cargo_owner == True and current_user.is_transporter == False:
-            # redirect to the cargo_owner dashboard page after login
-            return redirect(url_for('cargo_owner.dashboard'))
-        elif current_user.is_cargo_owner and current_user.is_transporter:
-            # redirect to the cargo_owner dashboard page after login
-            return redirect(url_for('cargo_owner.dashboard'))
         else:
             # redirect to the admin dashboard
             return redirect(url_for('admin.admin_dashboard'))
@@ -39,15 +33,9 @@ def login():
         if user is not None and user.verify_password(form.password.data):
             login_user(user, remember=form.remember.data)
             #flash(f'Logged In', 'success')
-            if user.is_transporter == True and user.is_cargo_owner == False:
+            if user.is_transporter:
                 # redirect to the transporter dashboard page after login
                 return redirect(url_for('transporter.dashboard'))
-            elif user.is_cargo_owner == True and user.is_transporter == False:
-                # redirect to the cargo_owner dashboard page after login
-                return redirect(url_for('cargo_owner.dashboard'))
-            elif user.is_cargo_owner and user.is_transporter:
-                # redirect to the cargo_owner dashboard page after login
-                return redirect(url_for('cargo_owner.dashboard'))
             else:
                 # redirect to the admin dashboard
                 return redirect(url_for('admin.admin_dashboard'))
@@ -91,15 +79,9 @@ def send_reset_email(user):
 def request_reset():
     if current_user.is_authenticated:
         next_page = request.args.get('next')
-        if current_user.is_transporter == True and current_user.is_cargo_owner == False:
+        if current_user.is_transporter:
             # redirect to the transporter dashboard page after login
             return redirect(next_page) if next_page else redirect(url_for('transporter.dashboard'))
-        elif current_user.is_cargo_owner == True and current_user.is_transporter == False:
-            # redirect to the cargo_owner dashboard page after login
-            return redirect(next_page) if next_page else redirect(url_for('cargo_owner.dashboard'))
-        elif current_user.is_cargo_owner and current_user.is_transporter:
-            # redirect to the cargo_owner dashboard page after login
-            return redirect(next_page) if next_page else redirect(url_for('cargo_owner.dashboard'))
         else:
             # redirect to the admin dashboard
             return redirect(next_page) if next_page else redirect(url_for('admin.admin_dashboard'))
@@ -116,15 +98,9 @@ def request_reset():
 def reset_password(token):
     if current_user.is_authenticated:
         next_page = request.args.get('next')
-        if current_user.is_transporter == True and current_user.is_cargo_owner == False:
+        if current_user.is_transporter:
             # redirect to the transporter dashboard page after login
             return redirect(next_page) if next_page else redirect(url_for('transporter.dashboard'))
-        elif current_user.is_cargo_owner == True and current_user.is_transporter == False:
-            # redirect to the cargo_owner dashboard page after login
-            return redirect(next_page) if next_page else redirect(url_for('cargo_owner.dashboard'))
-        elif current_user.is_cargo_owner and current_user.is_transporter:
-            # redirect to the cargo_owner dashboard page after login
-            return redirect(next_page) if next_page else redirect(url_for('cargo_owner.dashboard'))
         else:
             # redirect to the admin dashboard
             return redirect(next_page) if next_page else redirect(url_for('admin.admin_dashboard'))

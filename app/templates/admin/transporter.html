@@ -1,0 +1,155 @@
+{% extends "layout.html" %} {% block body %}
+<article class="media body-section container mb-5">
+  <img
+    style="height: 90px; width: 100px;"
+    src="{{ url_for('static', filename='profile_pics/' + transporter.image_file )}}"
+    alt="Profile picture"
+    class="article-img rounded-circle"
+  />
+  <div class="media-body" style="margin-top: 10px;">
+    <h2 class="article-title">
+      {{ transporter.first_name }} {{ transporter.last_name }}
+    </h2>
+
+    <div class="article-metadata">
+      <h5 style="text-decoration: underline;">
+        <strong>ID NUMBER</strong>
+      </h5>
+      <p class="article-content">{{ transporter.id_number }}</p>
+
+      <h5 style="text-decoration: underline;">
+        <strong>PHONE NUMBER</strong>
+      </h5>
+      <p class="article-content">{{ transporter.phone_number }}</p>
+
+      <h5 style="text-decoration: underline;">
+        <strong>Email</strong>
+      </h5>
+      <p class="article-content">{{ transporter.email }}</p>
+      <h5 style="text-decoration: underline;">
+        <strong>Trips</strong>
+      </h5>
+      {% for trip in transporter.cargo_routes %}
+      <div class="container mb-3 mt-3">
+        <ul class="list-group" style="width: 45%;">
+          <li class="list-group-item active">
+            <strong>From:</strong> {{ trip.start_point }} <br />
+            <strong>To:</strong> {{ trip.destination }}
+          </li>
+          <li class="list-group-item">
+            <strong>From: </strong>{{ trip.from_date.strftime("%x") }}
+          </li>
+          <li class="list-group-item">
+            <strong>To: </strong>{{ trip.to_date.strftime("%x") }}
+          </li>
+        </ul>
+      </div>
+
+      {% endfor %}
+      <h5 style="text-decoration: underline;">
+        <strong>Drivers</strong>
+      </h5>
+      {% for driver in transporter.drivers %}
+      <div class="container mb-3 mt-3">
+        <ul class="list-group" style="width: 45%;">
+          <li class="list-group-item active">
+            <img
+              style="height: 50px; width: 60px;"
+              src="{{ url_for('static', filename='profile_pics/' + driver.image_file )}}"
+              alt="Profile picture"
+              class="article-img rounded-circle"
+            />
+            <p class="mt-2">{{ driver.first_name }} {{ driver.last_name }}</p>
+          </li>
+          <li class="list-group-item">
+            <strong>ID NUMBER:</strong> <i>{{ driver.id_number }}</i>
+          </li>
+          <li class="list-group-item">
+            <strong>LICENSE:</strong> <i>{{ driver.license_number }}</i>
+          </li>
+          <li class="list-group-item">
+            <strong>PHONE NUMBER:</strong> <i>{{ driver.phone_number }}</i>
+          </li>
+          <li class="list-group-item">
+            <strong>EMAIL:</strong> <i>{{ driver.email }}</i>
+          </li>
+        </ul>
+      </div>
+      {% endfor %}
+      <h5 style="text-decoration: underline;">
+        <strong>Vehicles</strong>
+      </h5>
+      {% for vehicle in transporter.vehicles %}
+      <div class="container mt-3">
+        <ul class="list-group" style="width: 45%;">
+          <li class="list-group-item active">
+            {{ vehicle.registration_number }}
+          </li>
+          <li class="list-group-item">
+            <strong>Vehicle Type: </strong>{{ vehicle.vehicle_type }}
+          </li>
+          <li class="list-group-item">
+            <strong>Inspection No: </strong>{{ vehicle.inspection_sticker }}
+          </li>
+          <li class="list-group-item">
+            <strong>Load Capacity: </strong>{{ vehicle.load_capacity }}
+          </li>
+        </ul>
+      </div>
+
+      {% endfor %}
+    </div>
+  </div>
+  {% if current_user.is_admin %}
+  <div class="update-section">
+    <button
+      type="button"
+      class="btn btn-danger btn-sm m-1"
+      data-toggle="modal"
+      data-target="#deleteModal"
+    >
+      Delete User
+    </button>
+  </div>
+  {% endif %}
+</article>
+<div
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="deleteModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Modal Title</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">Are you sure you want to delete this User?</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form
+          action="{{url_for('admin.delete_transporter', transporter_id=transporter.id)}}"
+          method="POST"
+        >
+          <input
+            type="submit"
+            class="btn btn-danger btn-modal "
+            value="Delete"
+          />
+        </form>
+        <!-- <button class="btn btn-danger">Delete</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock body %}
