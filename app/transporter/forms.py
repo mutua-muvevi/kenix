@@ -73,6 +73,8 @@ class DriverForm(FlaskForm):
                                'placeholder': '0712123456'})
     license_number = StringField('License Number', validators=[
                                  Required()], render_kw={'placeholder': 'A0126587'})
+    vehicle_driven = StringField("Driver's Vehicle Registration Number", validators=[
+        Required()], render_kw={'placeholder': 'KCA 123G/ZE 9236'})
     picture = FileField('Update Profile', validators=[
                         FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Submit')
@@ -114,6 +116,8 @@ class DriverUpdateForm(FlaskForm):
                                'placeholder': '0712123456'})
     license_number = StringField('License Number', validators=[
                                  Required()], render_kw={'placeholder': 'A0126587'})
+    vehicle_driven = StringField("Driver's Vehicle Registration Number", validators=[
+        Required()], render_kw={'placeholder': 'KCA 123G/ZE 9236'})
     submit = SubmitField('Update')
 
 

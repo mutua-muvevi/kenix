@@ -168,6 +168,7 @@ def register_driver():
             email=form.email.data,
             phone_number=form.phone_number.data,
             license_number=form.license_number.data,
+            vehicle_driven=form.vehicle_driven.data,
             image_file=picture_file,
             driver=current_user
         )
@@ -257,6 +258,7 @@ def update_driver(driver_id):
         driver.email = form.email.data
         driver.phone_number = form.phone_number.data
         driver.license_number = form.license_number.data
+        driver.vehicle_driven=form.vehicle_driven.data,
         db.session.commit()
         flash(f'Your Driver has been updated', 'success')
         return redirect(url_for('transporter.drivers', driver_id=driver.id))
@@ -268,6 +270,7 @@ def update_driver(driver_id):
         form.email.data = driver.email
         form.phone_number.data = driver.phone_number
         form.license_number.data = driver.license_number
+        form.vehicle_driven.data = driver.vehicle_driven
     return render_template('transporter/edit.html', title='Update Driver', form=form)
 
 @transporter.route('/transporter/drivers/<int:driver_id>/delete', methods=['POST'])

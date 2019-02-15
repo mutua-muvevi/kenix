@@ -26,6 +26,10 @@
         <strong>LICENSE NUMBER</strong>
       </h5>
       <p class="article-content">{{ driver.license_number }}</p>
+      <h5 style="text-decoration: underline;">
+          <strong>Vehicle Driven</strong>
+        </h5>
+        <p class="article-content">{{ driver.vehicle_driven }}</p>
     </div>
   </div>
   {% if driver.driver == current_user %}

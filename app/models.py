@@ -69,7 +69,7 @@ class User(UserMixin, db.Model):
         return User.query.get(user_id)
 
     def __repr__(self):
-        return '<User: {}>'.format(self.username)
+        return '<User: {}>'.format(self.first_name)
 
 # set up a user loader
 
@@ -110,6 +110,7 @@ class Drivers(db.Model):
     id_number = db.Column(db.String(20), index=True, nullable=False)
     phone_number = db.Column(db.String(100), index=True, nullable=False)
     license_number = db.Column(db.String(100), index=True, nullable=False)
+    vehicle_driven = db.Column(db.String(100), index=True, nullable=False)
     image_file = db.Column(db.String(1000), nullable=False,default='default.jpg')
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
@@ -121,7 +122,7 @@ class Vehicles(db.Model):
     __tablename__ = 'vehicles'
 
     id = db.Column(db.Integer, primary_key=True, nullable=False)
-    registration_number = db.Column(db.String(20), index=True, nullable=False)
+    registration_number = db.Column(db.String(100), index=True, nullable=False)
     vehicle_type = db.Column(db.String(100), index=True, nullable=False)
     inspection_sticker = db.Column(db.String(100), index=True, nullable=False)
     load_capacity = db.Column(db.String(20), index=True, nullable=False)
