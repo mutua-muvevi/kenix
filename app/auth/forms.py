@@ -11,7 +11,7 @@ class LoginForm(FlaskForm):
     Forms for logging in a user
     """
     email = StringField('Email', validators=[Required(), Email()], render_kw={
-        'placeholder': 'email'})
+        'placeholder': 'email', 'id':'email-id'})
     password = PasswordField('Password', validators=[Required()], render_kw={
                              'placeholder': '*********'})
     remember = BooleanField('Remember Me', render_kw={'class': 'remember'})

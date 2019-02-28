@@ -71,7 +71,7 @@ def delete_transporter(transporter_id):
 
 
 @admin.route('/register', methods=['GET', 'POST'])
-@login_required
+#@login_required
 def register():
     from app import db
     """
